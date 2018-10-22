@@ -1,4 +1,5 @@
 /// @ref gtx_norm
+/// @file glm/gtx/norm.inl
 
 #include "../detail/qualifier.hpp"
 

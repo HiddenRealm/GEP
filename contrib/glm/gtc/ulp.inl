@@ -1,4 +1,5 @@
 /// @ref gtc_ulp
+/// @file glm/gtc/ulp.inl
 ///
 /// Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
 ///
@@ -7,6 +8,7 @@
 /// software is freely granted, provided that this notice
 /// is preserved.
 
+#include "../detail/type_int.hpp"
 #include "epsilon.hpp"
 #include <cmath>
 #include <cfloat>
@@ -29,8 +31,8 @@ typedef union
 	double value;
 	struct
 	{
-		int lsw;
-		int msw;
+		glm::detail::int32 lsw;
+		glm::detail::int32 msw;
 	} parts;
 } ieee_double_shape_type;
 
@@ -70,7 +72,7 @@ namespace detail
 	GLM_FUNC_QUALIFIER float nextafterf(float x, float y)
 	{
 		volatile float t;
-		int hx, hy, ix, iy;
+		glm::detail::int32 hx, hy, ix, iy;
 
 		GLM_GET_FLOAT_WORD(hx, x);
 		GLM_GET_FLOAT_WORD(hy, y);
@@ -80,13 +82,13 @@ namespace detail
 		if((ix>0x7f800000) ||	// x is nan
 			(iy>0x7f800000))	// y is nan
 			return x+y;
-		if(abs(y - x) <= epsilon<float>())
+		if(compute_equal<float>::call(x, y))
 			return y;		// x=y, return y
 		if(ix==0)
 		{				// x == 0
 			GLM_SET_FLOAT_WORD(x,(hy&0x80000000)|1);// return +-minsubnormal
 			t = x*x;
-			if(abs(t - x) <= epsilon<float>())
+			if(detail::compute_equal<float>::call(t, x))
 				return t;
 			else
 				return x;	// raise underflow flag
@@ -111,7 +113,7 @@ namespace detail
 		if(hy<0x00800000)		// underflow
 		{
 			t = x*x;
-			if(abs(t - x) > epsilon<float>())
+			if(!detail::compute_equal<float>::call(t, x))
 			{					// raise underflow flag
 				GLM_SET_FLOAT_WORD(y,hx);
 				return y;
@@ -124,8 +126,8 @@ namespace detail
 	GLM_FUNC_QUALIFIER double nextafter(double x, double y)
 	{
 		volatile double t;
-		int hx, hy, ix, iy;
-		unsigned int lx, ly;
+		glm::detail::int32 hx, hy, ix, iy;
+		glm::detail::uint32 lx, ly;
 
 		GLM_EXTRACT_WORDS(hx, lx, x);
 		GLM_EXTRACT_WORDS(hy, ly, y);
@@ -135,13 +137,13 @@ namespace detail
 		if(((ix>=0x7ff00000)&&((ix-0x7ff00000)|lx)!=0) ||	// x is nan
 			((iy>=0x7ff00000)&&((iy-0x7ff00000)|ly)!=0))	// y is nan
 			return x+y;
-		if(abs(y - x) <= epsilon<double>())
+		if(detail::compute_equal<double>::call(x, y))
 			return y;									// x=y, return y
 		if((ix|lx)==0)
 		{													// x == 0
 			GLM_INSERT_WORDS(x, hy & 0x80000000, 1);		// return +-minsubnormal
 			t = x*x;
-			if(abs(t - x) <= epsilon<double>())
+			if(detail::compute_equal<double>::call(t, x))
 				return t;
 			else
 				return x;   // raise underflow flag
@@ -169,7 +171,7 @@ namespace detail
 		if(hy<0x00100000)
 		{						// underflow
 			t = x*x;
-			if(abs(t - x) > epsilon<double>())
+			if(!detail::compute_equal<double>::call(t, x))
 			{					// raise underflow flag
 				GLM_INSERT_WORDS(y,hx,lx);
 				return y;

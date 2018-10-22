@@ -1,4 +1,5 @@
 /// @ref gtx_associated_min_max
+/// @file glm/gtx/associated_min_max.inl
 
 namespace glm{
 

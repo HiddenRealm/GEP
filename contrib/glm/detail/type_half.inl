@@ -1,3 +1,6 @@
+/// @ref core
+/// @file glm/detail/type_half.inl
+
 namespace glm{
 namespace detail
 {
@@ -20,12 +23,12 @@ namespace detail
 			f(f_)
 		{}
 
-		GLM_FUNC_QUALIFIER uif32(unsigned int i_) :
+		GLM_FUNC_QUALIFIER uif32(uint32 i_) :
 			i(i_)
 		{}
 
 		float f;
-		unsigned int i;
+		uint32 i;
 	};
 
 	GLM_FUNC_QUALIFIER float toFloat32(hdata value)

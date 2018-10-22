@@ -15,10 +15,12 @@
 #pragma once
 
 // Dependencies
-#include "../gtc/constants.hpp"
-#include "../ext/vector_relational.hpp"
+#include "../detail/setup.hpp"
+#include "../detail/qualifier.hpp"
+#include "../detail/type_int.hpp"
+#include "../detail/compute_vector_relational.hpp"
 
-#if GLM_MESSAGES == GLM_ENABLE && !defined(GLM_EXT_INCLUDED)
+#if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_EXT_INCLUDED)
 #	pragma message("GLM: GLM_GTC_ulp extension included")
 #endif
 
