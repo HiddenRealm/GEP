@@ -1,0 +1,46 @@
+From f1a5adfede4f4011d4c6101c62b7f928f63c67c3 Mon Sep 17 00:00:00 2001
+From: HiddenRealm <jamestaylor034@gmail.com>
+Date: Mon, 22 Oct 2018 15:20:10 +0100
+Subject: [PATCH 1/2] All the files needed so far
+
+---
+ src/game/TestScene.cpp |  0
+ src/game/TestScene.h   |  0
+ src/myengine/Core.h    | 18 ------------------
+ 3 files changed, 18 deletions(-)
+ delete mode 100644 src/game/TestScene.cpp
+ delete mode 100644 src/game/TestScene.h
+
+diff --git a/src/game/TestScene.cpp b/src/game/TestScene.cpp
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/src/game/TestScene.h b/src/game/TestScene.h
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/src/myengine/Core.h b/src/myengine/Core.h
+index 6c275a7..e69de29 100644
+--- a/src/myengine/Core.h
++++ b/src/myengine/Core.h
+@@ -1,18 +0,0 @@
+-Class Core noncopyable //Check this
+-{
+-Public:
+-
+-
+-void Core::initialize(); */
+-void Core::~Core();
+-void Core::start();      all of these are wrong i think
+-void Core::stop();
+-void Core::addEntity()  /*
+-
+-
+-Private:
+-
+-
+-
+-
+-}
+\ No newline at end of file
+-- 
+2.19.1.windows.1
+
