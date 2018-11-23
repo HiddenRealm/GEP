@@ -26,16 +26,20 @@ public:
     return rtn;
   }
 
-  template <typename T, typename A>
-  std::shared_ptr<T> addComponent(A a)
+  template <typename T>
+  std::shared_ptr<T> getComponent()
   {
-	 std::shared_ptr<T> rtn = std::make_shared<T>();
-	 rtn->entity = self;
-	 rtn->began = false;
-	 components.push_back(rtn);
-	 rtn->initialize(a);
+	  for (size_t i = 0; i < components.size(); i++)
+	  {
+		  std::shared_ptr<T> list = std::dynamic_pointer_cast<T>(components.at(i));
 
-    return rtn;
+		  if (list)
+		  {
+			  return list;
+		  }
+	  }
+
+	  std::cout << "Failed to load Components" << std::endl;
   }
 
   std::shared_ptr<Core> getCore();

@@ -47,9 +47,6 @@ void Core::start()
 {
   running = true;
 
-  //std::shared_ptr<myengine::Sound> sound = std::make_shared<myengine::Sound>("dixie_horn.ogg");
-  //sound->play();
-
   while(running)
   {
 

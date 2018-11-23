@@ -5,5 +5,6 @@
 #include "Entity.h"
 #include "Component.h"
 #include "Sound.h"
+#include "Object.h"
 
 #endif
