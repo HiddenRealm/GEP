@@ -21,7 +21,7 @@ public:
 	rtn->entity = self;
 	rtn->began = false;
 	components.push_back(rtn);
-    rtn->onInit();
+    rtn->initialize();
 
     return rtn;
   }
@@ -33,23 +33,9 @@ public:
 	 rtn->entity = self;
 	 rtn->began = false;
 	 components.push_back(rtn);
-	 rtn->onInit(a);
+	 rtn->initialize(a);
 
     return rtn;
-  }
-
-  template <typename T>
-  std::shared_ptr<T> getComponent()
-  {
-	  for (size_t i = 0; i < components.size(); i++)
-	  {
-		  std::shared_ptr<T> comList = std::dynamic_pointer_cast<T>(components.at(i));
-
-		  if (comList)
-		  {
-			  return tst;
-		  }
-	  }
   }
 
   std::shared_ptr<Core> getCore();
@@ -60,7 +46,6 @@ private:
   std::vector<std::shared_ptr<Component> > components;
 
   void tick();
-  void display();
 
 };
 

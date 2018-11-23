@@ -10,26 +10,15 @@ std::shared_ptr<Core> Entity::getCore()
 
 void Entity::tick()
 {
-  for(std::vector<std::shared_ptr<Component> >::iterator it = components.begin();
+  for(std::vector<std::shared_ptr<Component>>::iterator it = components.begin();
     it != components.end(); it++)
   {
     if(!(*it)->began)
     {
-      (*it)->onBegin();
       (*it)->began = true;
     }
 
-    (*it)->onTick();
+    (*it)->update();
   }
 }
-
-void Entity::display()
-{
-  for(std::vector<std::shared_ptr<Component> >::iterator it = components.begin();
-    it != components.end(); it++)
-  {
-    (*it)->onDisplay();
-  }
-}
-
 }

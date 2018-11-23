@@ -43,6 +43,7 @@ add_library(myengine
   src/myengine/Core.cpp
   src/myengine/Entity.cpp
   src/myengine/Sound.cpp
+  src/myengine/Object.cpp
 )
 
 if(MSVC)

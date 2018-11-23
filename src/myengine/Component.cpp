@@ -3,12 +3,8 @@
 
 namespace myengine
 {
-
-Component::~Component() { }
-void Component::onInit() { }
-void Component::onBegin() { }
-void Component::onTick() { }
-void Component::onDisplay() { }
+void Component::initialize() { }
+void Component::update() { }
 
 std::shared_ptr<Entity> Component::getEntity()
 {
