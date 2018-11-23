@@ -62,16 +62,9 @@ std::shared_ptr<Core> Core::initialize()
 void Core::start()
 {
   running = true;
-  float lastTime = SDL_GetTicks();
-  float idealTime = 1.0f / 60.0f;
-
 
   while(running)
   {
-	  if (idealTime > deltaTime)
-	  {
-		  SDL_Delay((idealTime - deltaTime) * 1000.0f);
-	  }
 
 	SDL_Event event = {0};
 
@@ -98,11 +91,6 @@ void Core::start()
     }
 
     SDL_GL_SwapWindow(window);
-
-	float time = SDL_GetTicks();
-	float diff = time - lastTime;
-	float deltaTime = diff / 1000.0f;
-	lastTime = time;
   }
 }
 

@@ -7,8 +7,8 @@ class TestScreen : public myengine::Component
 public:
   void onInit(std::string color)
   {
-	std::cout << "Working" << std::endl;
-	std::cout << color << std::endl;
+	  std::cout << "Working" << std::endl;
+	  std::cout << color << std::endl;
   }
 
   void onBegin()

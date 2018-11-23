@@ -42,10 +42,6 @@ add_library(myengine
   src/myengine/Component.cpp
   src/myengine/Core.cpp
   src/myengine/Entity.cpp
-  src/myengine/MeshRenderer.cpp
-  src/myengine/Shader.cpp
-  src/myengine/VB.cpp
-  src/myengine/VA.cpp
   src/myengine/Sound.cpp
 )
 
