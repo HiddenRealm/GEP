@@ -1,61 +1,125 @@
 #include "Sound.h"
 
 #include <AL/al.h>
-#include <AL/alc.h>
-
+#include <vorbis/vorbisfile.h>
 #include <iostream>
-#include <fstream>
+#include <vector>
 
 namespace myengine
 {
+
+	struct SoundImpl : public Sound
+	{
+		ALuint id;
+
+		~SoundImpl()
+		{
+			alDeleteBuffers(1, &id);
+		}
+
+		void load_ogg(std::string fileName, std::vector<char> &buffer,
+			ALenum &format, ALsizei &freq)
+		{
+			int endian = isBigE();
+			int bitStream = 0;
+			long bytes = 0;
+			char array[2048] = { 0 };
+			vorbis_info *pInfo = NULL;
+			OggVorbis_File oggFile = { 0 };
+
+			// Use the inbuilt fopen to create a file descriptor
+			if (ov_fopen(fileName.c_str(), &oggFile) != 0)
+			{
+				std::cout << "Failed to open file '" << fileName << "' for decoding" << std::endl;
+				throw std::exception();
+			}
+
+			// Extract information from the file header
+			pInfo = ov_info(&oggFile, -1);
+
+			// Record the format required by OpenAL
+			if (pInfo->channels == 1)
+			{
+				format = AL_FORMAT_MONO16;
+			}
+			else
+			{
+				format = AL_FORMAT_STEREO16;
+			}
+
+			// Record the sample rate required by OpenAL
+			freq = pInfo->rate;
+
+			// Keep reading bytes from the file to populate the output buffer
+			while (true)
+			{
+				// Read bytes into temporary array
+				bytes = ov_read(&oggFile, array, 2048, endian, 2, 1, &bitStream);
+
+				if (bytes < 0)
+				{
+					ov_clear(&oggFile);
+					std::cout << "Failed to decode file '" << fileName << "'." << std::endl;
+					throw std::exception();
+				}
+				else if (bytes == 0)
+				{
+					break;
+				}
+
+				// Copy from temporary array into output buffer
+				buffer.insert(buffer.end(), array, array + bytes);
+			}
+
+			// Clean up and close the file
+			ov_clear(&oggFile);
+		}
+	};
+
 	Sound::Sound() { }
+
 	Sound::Sound(std::string path)
 	{
-		read(path.c_str());
+		load(path);
+	}
+
+	void Sound::initialize(std::string path)
+	{
+		load(path);
+		//play();
+	}
+
+	void Sound::update()
+	{
+
+	}
+
+	void Sound::load(std::string path)
+	{
+		impl = std::make_shared<SoundImpl>();
+
+		ALenum format = 0;
+		ALsizei freq = 0;
+		std::vector<char> bufferData;
+
+		alGenBuffers(1, &impl->id);
+
+		impl->load_ogg(path.c_str(), bufferData, format, freq);
+
+		alBufferData(impl->id, format, &bufferData[0],
+			static_cast<ALsizei>(bufferData.size()), freq);
 	}
 
 	void Sound::play()
 	{
-		ALCdevice* device = alcOpenDevice(NULL);
-		if (device == NULL)
-		{
-			throw std::exception();
-		}
+		ALuint sid = 0;
+		alGenSources(1, &sid);
+		alListener3f(AL_POSITION, 0.0f, 0.0f, 0.0f);
+		alSource3f(sid, AL_POSITION, 0.0f, 0.0f, 0.0f);
+		alSourcei(sid, AL_BUFFER, impl->id);
+		alSourcePlay(sid);
 
-		ALCcontext* context = alcCreateContext(device, NULL);
-		if (context == NULL)
-		{
-			throw std::exception();
-		}
-
-		alcMakeContextCurrent(context);
-
-		unsigned int bufferid, format;
-		alGenBuffers(1, &bufferid);
-		if (channel == 1)
-		{
-			if (beats == 8)
-			{
-				format = AL_FORMAT_MONO8;
-			}
-			else {
-				format = AL_FORMAT_MONO16;
-			}
-		}
-		else {
-			if (beats == 8)
-			{
-				format = AL_FORMAT_STEREO8;
-			}
-			else {
-				format = AL_FORMAT_STEREO16;
-			}
-		}
-		alBufferData(bufferid, format, data, size, sample);
-		unsigned int sourceid;
-		alGenSources(1, &sourceid);
-		alSourcei(sourceid, AL_BUFFER, bufferid);
-		alSourcePlay(sourceid);
+		//audioSources.push_back(sid);
 	}
 
 	bool Sound::isBigE()
@@ -83,36 +147,5 @@ namespace myengine
 			}
 		}
 		return x;
-	}
-
-	void Sound::read(const char* name)
-	{
-		char buffer[4];
-		std::ifstream in(name, std::ios::binary);
-		in.read(buffer, 4);
-		if (strncmp(buffer, "RIFF", 4) != 0)
-		{
-			throw std::exception();
-			std::cout << "Not a WAV" << std::endl;
-		}
-		in.read(buffer, 4);
-		in.read(buffer, 4);
-		in.read(buffer, 4);
-		in.read(buffer, 4);
-		in.read(buffer, 2);
-		in.read(buffer, 2);
-		channel = convert(buffer, 2);
-		in.read(buffer, 4);
-		sample = convert(buffer, 4);
-		in.read(buffer, 4);
-		in.read(buffer, 2);
-		in.read(buffer, 2);
-		beats = convert(buffer, 2);
-		in.read(buffer, 4);
-		in.read(buffer, 4);
-		size = convert(buffer, 4);
-		data = new char[size];
-		in.read(data, size);
-		data = data;
 	}
 }

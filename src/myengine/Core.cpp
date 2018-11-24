@@ -38,7 +38,25 @@ std::shared_ptr<Core> Core::initialize()
 
   setup->device = alcOpenDevice(NULL);
 
+  if (!setup->device)
+  {
+	  throw std::exception();
+  }
+
   setup->context = alcCreateContext(setup->device, NULL);
+
+  if (!setup->context)
+  {
+	  alcCloseDevice(setup->device);
+	  throw std::exception();
+  }
+
+  if (!alcMakeContextCurrent(setup->context))
+  {
+	  alcDestroyContext(setup->context);
+	  alcCloseDevice(setup->device);
+	  throw std::exception();
+  }
 
   return setup;
 }
@@ -54,20 +72,22 @@ void Core::start()
 
     while(SDL_PollEvent(&event))
     {
-      if(event.type == SDL_QUIT)
+	  if(event.type == SDL_QUIT)
       {
         running = false;
       }
     }
 
-
     for(std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); it++)
     {
-      (*it)->tick();
+      (*it)->update();
     }
 
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+	//Display Here
+
 
     SDL_GL_SwapWindow(window);
   }

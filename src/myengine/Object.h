@@ -1,9 +1,10 @@
 #include <memory>
 #include <string>
+#include "Component.h"
 
 namespace myengine
 {
-	class Object
+	class Object : public Component
 	{
 
 	public:

@@ -1,5 +1,5 @@
 #include "Component.h"
-
+#include <SDL2/SDL.h>
 #include <memory>
 #include <vector>
 
@@ -26,6 +26,30 @@ public:
     return rtn;
   }
 
+  template <typename T, typename A>
+  std::shared_ptr<T> addComponent(A a)
+  {
+	  std::shared_ptr<T> rtn = std::make_shared<T>();
+	  rtn->entity = self;
+	  rtn->began = false;
+	  components.push_back(rtn);
+	  rtn->initialize(a);
+
+	  return rtn;
+  }
+
+  template <typename T, typename A, typename B>
+  std::shared_ptr<T> addComponent(A a, B b)
+  {
+	  std::shared_ptr<T> rtn = std::make_shared<T>();
+	  rtn->entity = self;
+	  rtn->began = false;
+	  components.push_back(rtn);
+	  rtn->initialize(a, b);
+
+	  return rtn;
+  }
+
   template <typename T>
   std::shared_ptr<T> getComponent()
   {
@@ -38,8 +62,6 @@ public:
 			  return list;
 		  }
 	  }
-
-	  std::cout << "Failed to load Components" << std::endl;
   }
 
   std::shared_ptr<Core> getCore();
@@ -49,8 +71,7 @@ private:
   std::weak_ptr<Core> core;
   std::vector<std::shared_ptr<Component> > components;
 
-  void tick();
-
+  void update();
 };
 
 }
