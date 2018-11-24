@@ -10,15 +10,24 @@ std::shared_ptr<Core> Entity::getCore()
 
 void Entity::update()
 {
-  for(std::vector<std::shared_ptr<Component>>::iterator it = components.begin();
-    it != components.end(); it++)
+  for(std::vector<std::shared_ptr<Component>>::iterator count = components.begin();
+	  count != components.end(); count++)
   {
-    if(!(*it)->began)
+    if(!(*count)->began)
     {
-      (*it)->began = true;
+      (*count)->began = true;
     }
 
-    (*it)->update();
+    (*count)->update();
   }
+}
+
+void Entity::display()
+{
+	for (std::vector<std::shared_ptr<Component> >::iterator count = components.begin();
+		count != components.end(); count++)
+	{
+		(*count)->display();
+	}
 }
 }

@@ -40,7 +40,7 @@ std::shared_ptr<Core> Core::initialize()
 
   if (!setup->device)
   {
-	  throw std::exception();
+	  std::cout << "OpenAL Failed to Init" << std::endl;
   }
 
   setup->context = alcCreateContext(setup->device, NULL);
@@ -48,14 +48,14 @@ std::shared_ptr<Core> Core::initialize()
   if (!setup->context)
   {
 	  alcCloseDevice(setup->device);
-	  throw std::exception();
+	  std::cout << "OpenAL Failed to Init" << std::endl;
   }
 
   if (!alcMakeContextCurrent(setup->context))
   {
 	  alcDestroyContext(setup->context);
 	  alcCloseDevice(setup->device);
-	  throw std::exception();
+	  std::cout << "OpenAL Failed to Init" << std::endl;
   }
 
   return setup;
@@ -67,7 +67,6 @@ void Core::start()
 
   while(running)
   {
-
 	SDL_Event event = {0};
 
     while(SDL_PollEvent(&event))
@@ -78,15 +77,19 @@ void Core::start()
       }
     }
 
-    for(std::vector<std::shared_ptr<Entity>>::iterator it = entities.begin(); it != entities.end(); it++)
+    for(std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
     {
-      (*it)->update();
+      (*count)->update();
     }
 
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-	//Display Here
+	for (std::vector<std::shared_ptr<Entity> >::iterator count = entities.begin();
+		count != entities.end(); count++)
+	{
+		(*count)->display();
+	}
 
 
     SDL_GL_SwapWindow(window);

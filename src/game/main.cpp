@@ -8,14 +8,15 @@ int main()
 
   // Making all of my Entities
   std::shared_ptr<myengine::Entity> Player = core->addEntity();
-  std::shared_ptr<myengine::Sound> p1 = Player->addComponent<myengine::Sound>("../audio/Wilhelm.ogg");
-  Player->addComponent<myengine::Sound>("../audio/Joke.ogg");
+  Player->addComponent<myengine::MeshRenderer>();
+  Player->addComponent<myengine::Sound>("../resources/audio/Wilhelm.ogg");
+  Player->addComponent<myengine::Input>();
 
 
   //THIS WORKS, WTF
-  std::shared_ptr<myengine::Entity> p = p1->getEntity();
+  /*std::shared_ptr<myengine::Entity> p = p1->getEntity();
   std::shared_ptr<myengine::Sound> lol = p->getComponent<myengine::Sound>();
-  lol->play();
+  lol->play();*/
   
   core->start();
 

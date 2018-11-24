@@ -43,7 +43,11 @@ add_library(myengine
   src/myengine/Core.cpp
   src/myengine/Entity.cpp
   src/myengine/Sound.cpp
-  src/myengine/Object.cpp
+  src/myengine/Input.cpp
+  src/myengine/MeshRenderer.cpp
+  src/myengine/ShaderProgram.cpp
+  src/myengine/VertexBuffer.cpp
+  src/myengine/VertexArray.cpp
 )
 
 if(MSVC)

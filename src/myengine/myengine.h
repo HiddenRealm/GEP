@@ -5,6 +5,10 @@
 #include "Entity.h"
 #include "Component.h"
 #include "Sound.h"
-#include "Object.h"
+#include "Input.h"
+#include "MeshRenderer.h"
+#include "VertexArray.h"
+#include "VertexBuffer.h"
+#include "ShaderProgram.h"
 
 #endif

@@ -23,6 +23,7 @@ private:
 
   virtual void initialize();
   virtual void update();
+  virtual void display();
 };
 
 }

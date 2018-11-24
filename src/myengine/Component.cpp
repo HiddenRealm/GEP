@@ -5,6 +5,7 @@ namespace myengine
 {
 void Component::initialize() { }
 void Component::update() { }
+void Component::display() { }
 
 std::shared_ptr<Entity> Component::getEntity()
 {
