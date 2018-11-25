@@ -1,10 +1,10 @@
+#ifndef VERTEXBUFFER_H
+#define VERTEXBUFFER_H
+
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 
 #include <vector>
-
-namespace myengine
-{
 
 class VertexBuffer
 {
@@ -15,6 +15,7 @@ class VertexBuffer
 
 public:
   VertexBuffer();
+  void add(glm::vec2 value);
   void add(glm::vec3 value);
   void add(glm::vec4 value);
   int getComponents();
@@ -23,4 +24,4 @@ public:
 
 };
 
-}
+#endif

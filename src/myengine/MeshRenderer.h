@@ -1,24 +1,41 @@
+#ifndef MESHRENDERER_H
+#define MESHRENDERER_H
+
 #include "Component.h"
 
+#include "VertexBuffer.h"
+#include "VertexArray.h"
+#include "ShaderProgram.h"
+#include "Texture.h"
+
+#include <SDL2/SDL.h>
+#include <GL/glew.h>
+#include <glm/ext.hpp>
+#include <iostream>
+#include <string>
 #include <memory>
 
 namespace myengine
 {
 
-class VertexArray;
-class ShaderProgram;
-
 class MeshRenderer : public Component
 {
 public:
-  void initialize();
+  MeshRenderer();
+  void initialize(std::string shp, std::string tex);
+  void update();
+  void setup(std::string shp, std::string tex);
 
 private:
   void display();
 
-  std::shared_ptr<VertexArray> shape;
-  std::shared_ptr<ShaderProgram> shader;
+  VertexArray *shape;
+  Texture *texture;
+  ShaderProgram *shader;
 
+  glm::mat4 model;
 };
 
 }
+
+#endif

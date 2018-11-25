@@ -6,9 +6,10 @@
 #include "Component.h"
 #include "Sound.h"
 #include "Input.h"
+#include "ShaderProgram.h"
 #include "MeshRenderer.h"
 #include "VertexArray.h"
 #include "VertexBuffer.h"
-#include "ShaderProgram.h"
+#include "Texture.h"
 
 #endif

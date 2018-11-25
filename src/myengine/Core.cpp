@@ -68,6 +68,9 @@ void Core::start()
 {
   running = true;
 
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_DEPTH_TEST);
+
   while(running)
   {
 	SDL_Event event = {0};
@@ -88,7 +91,7 @@ void Core::start()
 	playAudio();
 
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (std::vector<std::shared_ptr<Entity> >::iterator count = entities.begin();
 		count != entities.end(); count++)

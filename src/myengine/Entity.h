@@ -38,6 +38,30 @@ public:
 	  return rtn;
   }
 
+  template <typename T, typename A, typename B>
+  std::shared_ptr<T> addComponent(A a, B b)
+  {
+	  std::shared_ptr<T> rtn = std::make_shared<T>();
+	  rtn->entity = self;
+	  rtn->began = false;
+	  components.push_back(rtn);
+	  rtn->initialize(a, b);
+
+	  return rtn;
+  }
+
+  template <typename T, typename A, typename B, typename C>
+  std::shared_ptr<T> addComponent(A a, B b, C c)
+  {
+	  std::shared_ptr<T> rtn = std::make_shared<T>();
+	  rtn->entity = self;
+	  rtn->began = false;
+	  components.push_back(rtn);
+	  rtn->initialize(a, b, c);
+
+	  return rtn;
+  }
+
   template <typename T>
   std::shared_ptr<T> getComponent()
   {

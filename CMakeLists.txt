@@ -44,10 +44,12 @@ add_library(myengine
   src/myengine/Entity.cpp
   src/myengine/Sound.cpp
   src/myengine/Input.cpp
-  src/myengine/MeshRenderer.cpp
   src/myengine/ShaderProgram.cpp
+  src/myengine/MeshRenderer.cpp
   src/myengine/VertexBuffer.cpp
   src/myengine/VertexArray.cpp
+  src/myengine/Texture.cpp
+  contrib/stb_image/stb_image.cpp
 )
 
 if(MSVC)

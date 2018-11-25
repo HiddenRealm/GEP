@@ -1,3 +1,6 @@
+#ifndef SOUND_H
+#define SOUND_H
+
 #include <memory>
 #include <string>
 #include <SDL2/SDL.h>
@@ -26,3 +29,5 @@ namespace myengine
 	};
 
 }
+
+#endif

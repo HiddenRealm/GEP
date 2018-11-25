@@ -1,3 +1,6 @@
+#ifndef INPUT_H
+#define INPUT_H
+
 #include <memory>
 #include <string>
 #include <SDL2/SDL.h>
@@ -24,3 +27,5 @@ namespace myengine
 	};
 
 }
+
+#endif

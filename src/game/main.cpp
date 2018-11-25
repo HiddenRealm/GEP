@@ -8,12 +8,12 @@ int main()
 
   // Making all of my Entities
   std::shared_ptr<myengine::Entity> Player = core->addEntity();
-  Player->addComponent<myengine::MeshRenderer>();
+  Player->addComponent<myengine::MeshRenderer>("../resources/model/cat.obj", "../resources/model/cat_tex.png");
   Player->addComponent<myengine::Sound>("../resources/audio/Wilhelm.ogg");
   Player->addComponent<myengine::Input>();
 
   std::shared_ptr<myengine::Entity> Enemy = core->addEntity();
-  Enemy->addComponent<myengine::MeshRenderer>();
+  Enemy->addComponent<myengine::MeshRenderer>("../resources/model/hall.obj", "../resources/model/hall_tex.png");
   Enemy->addComponent<myengine::Input>();
 
   //THIS WORKS, WTF
