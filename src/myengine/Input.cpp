@@ -13,6 +13,7 @@ namespace myengine
 
 	void Input::initialize()
 	{
+
 	}
 
 	void Input::update()
@@ -21,11 +22,46 @@ namespace myengine
 		if (event[SDL_SCANCODE_SPACE]) 
 		{
 			space = true;
-			//std::cout << "<Space> is pressed.\n" << std::endl;
 		}
-		if (event[SDL_SCANCODE_RIGHT] && event[SDL_SCANCODE_UP]) 
+		else
 		{
-			std::cout << "Right and Up Keys Pressed.\n" << std::endl;
+		space = false;
+		}
+
+		if (event[SDL_SCANCODE_W]) 
+		{
+			w = true;
+		}
+		else
+		{
+			w = false;
+		}
+
+		if (event[SDL_SCANCODE_A])
+		{
+			a = true;
+		}
+		else
+		{
+			a = false;
+		}
+
+		if (event[SDL_SCANCODE_S])
+		{
+			s = true;
+		}
+		else
+		{
+			s = false;
+		}
+
+		if (event[SDL_SCANCODE_D])
+		{
+			d = true;
+		}
+		else
+		{
+			d = false;
 		}
 	}
 

@@ -20,10 +20,17 @@ namespace myengine
 		void update();
 
 		bool checkSpace() { return space; }
-		void setSpace(bool x) { space = x; }
+		bool checkW() { return w; }
+		bool checkA() { return a; }
+		bool checkS() { return s; }
+		bool checkD() { return d; }
 
 	private:
 		bool space = false;
+		bool w = false;
+		bool a = false;
+		bool s = false;
+		bool d = false;
 	};
 
 }

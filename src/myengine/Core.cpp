@@ -4,6 +4,7 @@
 
 #include "Sound.h"
 #include "Input.h"
+#include "MeshRenderer.h"
 
 #include <GL/glew.h>
 
@@ -89,6 +90,7 @@ void Core::start()
     }
 
 	playAudio();
+	movement();
 
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -129,11 +131,50 @@ void Core::playAudio()
 
 			if (input->checkSpace())
 			{
-				input->setSpace(false);
 				if (audio->isPlaying() == false)
 				{
 					audio->play();
+					std::cout << "Space" << std::endl;
 				}
+			}
+		}
+	}
+}
+
+void Core::movement()
+{
+	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+	{
+		if ((*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Input>())
+		{
+			std::shared_ptr<myengine::Input> input = (*count)->getComponent<myengine::Input>();
+			std::shared_ptr<myengine::MeshRenderer> skin = (*count)->getComponent<myengine::MeshRenderer>();
+
+			glm::vec3 pos;
+
+			if (input->checkW())
+			{
+				pos = { 0, 0, -0.5 };
+				std::cout << "Forward" << std::endl;
+				skin->setPos(pos);
+			}
+			if (input->checkA())
+			{
+				std::cout << "Left" << std::endl;
+				pos = { -0.5, 0, 0 };
+				skin->setPos(pos);
+			}
+			if (input->checkS())
+			{
+				std::cout << "Backward" << std::endl;
+				pos = { 0, 0, 0.5 };
+				skin->setPos(pos);
+			}
+			if (input->checkD())
+			{
+				std::cout << "Right" << std::endl;
+				pos = { 0.5, 0, 0 };
+				skin->setPos(pos);
 			}
 		}
 	}

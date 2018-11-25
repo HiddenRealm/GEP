@@ -22,9 +22,11 @@ class MeshRenderer : public Component
 {
 public:
   MeshRenderer();
-  void initialize(std::string shp, std::string tex);
+  void initialize(std::string shp, std::string tex, glm::vec3 pos);
   void update();
   void setup(std::string shp, std::string tex);
+  void setScale(glm::vec3 scl) { scale = scl; }
+  void setPos(glm::vec3 nw) { pos += nw; }
 
 private:
   void display();
@@ -33,6 +35,9 @@ private:
   Texture *texture;
   ShaderProgram *shader;
 
+  glm::vec3 camera;
+  glm::vec3 scale;
+  glm::vec3 pos;
   glm::mat4 model;
 };
 

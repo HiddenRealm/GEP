@@ -19,6 +19,7 @@ public:
   void start();
   void stop();
   void playAudio(); 
+  void movement();
   std::shared_ptr<Entity> addEntity();
 
 private:
