@@ -2,6 +2,9 @@
 #include "Entity.h"
 #include "iostream"
 
+#include "Sound.h"
+#include "Input.h"
+
 #include <GL/glew.h>
 
 #define WINDOW_WIDTH 800
@@ -82,6 +85,8 @@ void Core::start()
       (*count)->update();
     }
 
+	playAudio();
+
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
@@ -90,7 +95,6 @@ void Core::start()
 	{
 		(*count)->display();
 	}
-
 
     SDL_GL_SwapWindow(window);
   }
@@ -109,6 +113,27 @@ std::shared_ptr<Entity> Core::addEntity()
   rtn->core = self;
 
   return rtn;
+}
+
+void Core::playAudio()
+{
+	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+	{
+		if ((*count)->checkComponent<myengine::Sound>() && (*count)->checkComponent<myengine::Input>())
+		{
+			std::shared_ptr<myengine::Input> input = (*count)->getComponent<myengine::Input>();
+			std::shared_ptr<myengine::Sound> audio = (*count)->getComponent<myengine::Sound>();
+
+			if (input->checkSpace())
+			{
+				input->setSpace(false);
+				if (audio->isPlaying() == false)
+				{
+					audio->play();
+				}
+			}
+		}
+	}
 }
 
 }

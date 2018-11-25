@@ -12,6 +12,9 @@ int main()
   Player->addComponent<myengine::Sound>("../resources/audio/Wilhelm.ogg");
   Player->addComponent<myengine::Input>();
 
+  std::shared_ptr<myengine::Entity> Enemy = core->addEntity();
+  Enemy->addComponent<myengine::MeshRenderer>();
+  Enemy->addComponent<myengine::Input>();
 
   //THIS WORKS, WTF
   /*std::shared_ptr<myengine::Entity> p = p1->getEntity();

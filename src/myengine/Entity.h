@@ -52,6 +52,19 @@ public:
 	  }
   }
 
+  template <typename T>
+  bool checkComponent()
+  {
+	  for (size_t i = 0; i < components.size(); i++)
+	  {
+		  if (std::dynamic_pointer_cast<T>(components.at(i)) != NULL)
+		  {
+			  return true;
+		  }
+	  }
+	  return false;
+  }
+
   std::shared_ptr<Core> getCore();
 
 private:

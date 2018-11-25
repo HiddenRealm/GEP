@@ -86,7 +86,6 @@ namespace myengine
 	void Sound::initialize(std::string path)
 	{
 		load(path);
-		//play();
 	}
 
 	void Sound::update()
@@ -120,6 +119,16 @@ namespace myengine
 		alSourcePlay(sid);
 
 		//audioSources.push_back(sid);
+	}
+
+	bool Sound::isPlaying()
+	{
+		ALenum state;
+		ALuint sid = 0;
+		alGenSources(1, &sid);
+		alGetSourcei(sid, AL_SOURCE_STATE, &state);
+
+		return (state == AL_PLAYING);
 	}
 
 	bool Sound::isBigE()

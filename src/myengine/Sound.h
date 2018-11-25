@@ -19,6 +19,7 @@ namespace myengine
 		void load(std::string path);
 		void play();
 		void update();
+		bool isPlaying();
 
 		bool isBigE();
 		int convert(char* buffer, int len);

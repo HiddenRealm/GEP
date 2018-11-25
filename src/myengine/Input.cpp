@@ -20,7 +20,8 @@ namespace myengine
 		const Uint8 *event = SDL_GetKeyboardState(NULL);
 		if (event[SDL_SCANCODE_SPACE]) 
 		{
-			std::cout << "<Space> is pressed.\n" << std::endl;
+			space = true;
+			//std::cout << "<Space> is pressed.\n" << std::endl;
 		}
 		if (event[SDL_SCANCODE_RIGHT] && event[SDL_SCANCODE_UP]) 
 		{

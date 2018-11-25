@@ -15,6 +15,12 @@ namespace myengine
 
 		void initialize();
 		void update();
+
+		bool checkSpace() { return space; }
+		void setSpace(bool x) { space = x; }
+
+	private:
+		bool space = false;
 	};
 
 }
