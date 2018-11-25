@@ -20,6 +20,7 @@ public:
   void stop();
   void playAudio(); 
   void movement();
+  void randMove();
   std::shared_ptr<Entity> addEntity();
 
 private:

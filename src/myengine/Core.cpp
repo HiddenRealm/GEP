@@ -4,6 +4,7 @@
 
 #include "Sound.h"
 #include "Input.h"
+#include "Move.h"
 #include "MeshRenderer.h"
 
 #include <GL/glew.h>
@@ -91,6 +92,7 @@ void Core::start()
 
 	playAudio();
 	movement();
+	randMove();
 
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -154,28 +156,56 @@ void Core::movement()
 
 			if (input->checkW())
 			{
-				pos = { 0, 0, -0.5 };
-				std::cout << "Forward" << std::endl;
+				pos = { 0, 0, -0.25 };
 				skin->setPos(pos);
 			}
 			if (input->checkA())
 			{
-				std::cout << "Left" << std::endl;
-				pos = { -0.5, 0, 0 };
+				pos = { -0.25, 0, 0 };
 				skin->setPos(pos);
 			}
 			if (input->checkS())
 			{
-				std::cout << "Backward" << std::endl;
-				pos = { 0, 0, 0.5 };
+				pos = { 0, 0, 0.25 };
 				skin->setPos(pos);
 			}
 			if (input->checkD())
 			{
-				std::cout << "Right" << std::endl;
-				pos = { 0.5, 0, 0 };
+				pos = { 0.25, 0, 0 };
 				skin->setPos(pos);
 			}
+		}
+	}
+}
+
+void Core::randMove()
+{
+	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+	{
+		if ((*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Move>())
+		{
+			std::shared_ptr<myengine::MeshRenderer> skin = (*count)->getComponent<myengine::MeshRenderer>();
+			std::shared_ptr<myengine::Move> move = (*count)->getComponent<myengine::Move>();
+
+			glm::vec3 pos;
+
+			if (move->getPos() == 1)
+			{
+				pos = { 0, 0, -0.15 };
+			}
+			if (move->getPos() == 2)
+			{
+				pos = { -0.15, 0, 0 };
+			}
+			if (move->getPos() == 3)
+			{
+				pos = { 0, 0, 0.15 };
+			}
+			if (move->getPos() == 4)
+			{
+				pos = { 0.15, 0, 0 };
+			}
+			skin->setPos(pos);
 		}
 	}
 }

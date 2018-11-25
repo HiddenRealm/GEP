@@ -16,13 +16,20 @@ int main()
   Player->addComponent<myengine::Sound>("../resources/audio/Wilhelm.ogg");
   Player->addComponent<myengine::Input>();
 
-  std::shared_ptr<myengine::Entity> Enemy = core->addEntity();
-  glm::vec3 ePos = { -1.0f, -6.5f, -22.0f };
-  Enemy->addComponent<myengine::MeshRenderer>("../resources/model/cat.obj", "../resources/model/cat_tex.png", ePos);
+  for (int i = 0; i < 10; i++)
+  {
+	  std::shared_ptr<myengine::Entity> Enemy = core->addEntity();
+	  glm::vec3 ePos = { i, -6.5f, -i };
+	  Enemy->addComponent<myengine::MeshRenderer>("../resources/model/cat.obj", "../resources/model/cat_tex.png", ePos);
+	  std::shared_ptr<myengine::MeshRenderer> e = Enemy->getComponent<myengine::MeshRenderer>();
+	  glm::vec3 eScl = { 0.3f, 0.3f, 0.3f };
+	  e->setScale(eScl);
+	  Enemy->addComponent<myengine::Move>();
+  }
 
-  std::shared_ptr<myengine::Entity> Object = core->addEntity();
-  glm::vec3 oPos = { -1.0f, -6.5f, -22.0f };
-  Enemy->addComponent<myengine::MeshRenderer>("../resources/model/hall.obj", "../resources/model/hall_tex.png", oPos);
+  std::shared_ptr<myengine::Entity> Hall = core->addEntity();
+  glm::vec3 hPos = { -1.0f, -6.5f, -22.0f };
+  Hall->addComponent<myengine::MeshRenderer>("../resources/model/hall.obj", "../resources/model/hall_tex.png", hPos);
 
 
   //THIS WORKS, WTF

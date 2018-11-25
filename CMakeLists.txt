@@ -49,6 +49,7 @@ add_library(myengine
   src/myengine/VertexBuffer.cpp
   src/myengine/VertexArray.cpp
   src/myengine/Texture.cpp
+  src/myengine/Move.cpp
   contrib/stb_image/stb_image.cpp
 )
 

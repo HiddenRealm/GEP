@@ -24,6 +24,7 @@ public:
   MeshRenderer();
   void initialize(std::string shp, std::string tex, glm::vec3 pos);
   void update();
+  void wrap();
   void setup(std::string shp, std::string tex);
   void setScale(glm::vec3 scl) { scale = scl; }
   void setPos(glm::vec3 nw) { pos += nw; }

@@ -37,9 +37,30 @@ void MeshRenderer::update()
 	shader->setUniform("in_View", glm::inverse(model));
 
 	model = glm::mat4(1.0f);
+	wrap();
 	model = glm::translate(model, glm::vec3(pos.x , pos.y, pos.z));
 	model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0, 1, 0));
 	model = glm::scale(model, glm::vec3(scale.x, scale.y, scale.z));
+}
+
+void MeshRenderer::wrap()
+{
+	if (pos.x < -10)
+	{
+		pos.x = 10;
+	}
+	if (pos.x > 10)
+	{
+		pos.x = -10;
+	}
+	if (pos.z < -25)
+	{
+		pos.z = -9;
+	}
+	if (pos.z > -9)
+	{
+		pos.z = -25;
+	}
 }
 
 void MeshRenderer::display()
