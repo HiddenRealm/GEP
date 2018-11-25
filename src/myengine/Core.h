@@ -18,10 +18,15 @@ public:
 
   void start();
   void stop();
+  void coliP();
   void playAudio(); 
   void movement();
   void randMove();
   std::shared_ptr<Entity> addEntity();
+
+  void win();
+
+  void removeEntity(std::shared_ptr<myengine::Entity> e);
 
 private:
   bool running;

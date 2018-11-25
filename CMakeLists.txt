@@ -50,6 +50,7 @@ add_library(myengine
   src/myengine/VertexArray.cpp
   src/myengine/Texture.cpp
   src/myengine/Move.cpp
+  src/myengine/Collision.cpp
   contrib/stb_image/stb_image.cpp
 )
 

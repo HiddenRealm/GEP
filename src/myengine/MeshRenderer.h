@@ -29,6 +29,11 @@ public:
   void setScale(glm::vec3 scl) { scale = scl; }
   void setPos(glm::vec3 nw) { pos += nw; }
 
+  int getX() { return pos.x; }
+  int getZ() { return pos.z; }
+  int getY() { return pos.y; }
+  void setY(int nPos) { pos.y = nPos; }
+
 private:
   void display();
 

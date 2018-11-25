@@ -14,6 +14,7 @@ int main()
   glm::vec3 pScl = { 1, 1, 1 };
   p->setScale(pScl);
   Player->addComponent<myengine::Sound>("../resources/audio/Wilhelm.ogg");
+  Player->addComponent<myengine::Collision>();
   Player->addComponent<myengine::Input>();
 
   for (int i = 0; i < 10; i++)
@@ -25,17 +26,12 @@ int main()
 	  glm::vec3 eScl = { 0.3f, 0.3f, 0.3f };
 	  e->setScale(eScl);
 	  Enemy->addComponent<myengine::Move>();
+	  Enemy->addComponent<myengine::Collision>();
   }
 
   std::shared_ptr<myengine::Entity> Hall = core->addEntity();
   glm::vec3 hPos = { -1.0f, -6.5f, -22.0f };
   Hall->addComponent<myengine::MeshRenderer>("../resources/model/hall.obj", "../resources/model/hall_tex.png", hPos);
-
-
-  //THIS WORKS, WTF
-  /*std::shared_ptr<myengine::Entity> p = p1->getEntity();
-  std::shared_ptr<myengine::Sound> lol = p->getComponent<myengine::Sound>();
-  lol->play();*/
   
   core->start();
 

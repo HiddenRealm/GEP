@@ -5,6 +5,7 @@
 #include "Sound.h"
 #include "Input.h"
 #include "Move.h"
+#include "Collision.h"
 #include "MeshRenderer.h"
 
 #include <GL/glew.h>
@@ -93,6 +94,8 @@ void Core::start()
 	playAudio();
 	movement();
 	randMove();
+	coliP();
+	win();
 
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -121,6 +124,88 @@ std::shared_ptr<Entity> Core::addEntity()
 
   return rtn;
 }
+
+void Core::coliP()
+{
+	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+	{
+		if ((*count)->checkComponent<myengine::Collision>() && (*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Sound>())
+		{
+			std::shared_ptr<myengine::Collision> pCol = (*count)->getComponent<myengine::Collision>();
+			std::shared_ptr<myengine::Sound> pAudio = (*count)->getComponent<myengine::Sound>();
+			std::shared_ptr<myengine::MeshRenderer> pSkin = (*count)->getComponent<myengine::MeshRenderer>();
+
+			for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+			{
+				if ((*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Move>() && (*count)->checkComponent<myengine::Collision>())
+				{
+					std::shared_ptr<myengine::MeshRenderer> eSkin = (*count)->getComponent<myengine::MeshRenderer>();
+
+					bool col;
+					col = pCol->check(pSkin->getX(), pSkin->getZ(), eSkin->getX(), eSkin->getZ());
+					
+					if (col == true)
+					{
+						if (pAudio->isPlaying() == false)
+						{
+							pAudio->play();
+						}
+						eSkin->setY(-20);
+
+						//std::shared_ptr<myengine::Entity> e = eSkin->getEntity();
+						//removeEntity(e);
+					}
+				}
+			}
+			
+		}
+	}
+}
+
+void Core::win()
+{
+	bool win = true;
+
+	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+	{
+		if ((*count)->checkComponent<myengine::Move>())
+		{
+			std::shared_ptr<myengine::MeshRenderer> skin = (*count)->getComponent<myengine::MeshRenderer>();
+
+			if (skin->getY() < -10)
+			{
+
+			}
+			else
+			{
+				win = false;
+			}
+		}
+	}
+
+	if (win == true)
+	{
+		std::cout << "YOU WIN" << std::endl;
+	}
+}
+
+//void Core::removeEntity(std::shared_ptr<myengine::Entity> e)
+//{
+//	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+//	{
+//		if ((*count)->checkComponent<myengine::MeshRenderer>())
+//		{
+//			std::shared_ptr<myengine::MeshRenderer> c = (*count)->getComponent<myengine::MeshRenderer>();
+//			std::shared_ptr<myengine::Entity> e2 = c->getEntity();
+//
+//			if (e == e2)
+//			{
+//				entities.erase(count);
+//			}
+//
+//		}
+//	}
+//}
 
 void Core::playAudio()
 {

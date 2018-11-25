@@ -12,5 +12,6 @@
 #include "VertexBuffer.h"
 #include "Texture.h"
 #include "Move.h"
+#include "Collision.h"
 
 #endif
