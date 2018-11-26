@@ -22,7 +22,13 @@ namespace myengine
 	{
 
 	}
-
+	
+	//Not much to be said in this 'Component'
+	//this function simply inputs the a(x & Z) & b(x & z)
+	//takes them and adds them to 2 vec4 for simplicity
+	//if this engine was more fleshed out i wouldnt hard code these values
+	//i would have either different collision checks for each entity type
+	//or more likely send in the maxX & minX for each value
 	bool Collision::check(int aX, int aZ, int bX, int bZ)
 	{
 		glm::vec4 a = { (aX - 0.6), (aX + 0.6), (aZ - 0.4), (aZ + 0.4) };

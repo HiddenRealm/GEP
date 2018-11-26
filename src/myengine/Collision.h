@@ -18,6 +18,7 @@ namespace myengine
 
 		void initialize();
 		void update();
+		//returns if the entities have collided
 		bool check(int aX, int aZ, int bX, int bZ);
 
 	private:

@@ -14,10 +14,13 @@ class Entity;
 class Core
 {
 public:
+	//setUp
   static std::shared_ptr<Core> initialize();
-
+  //start & stop the loop
   void start();
   void stop();
+  
+  //systems
   void coliP();
   void playAudio(); 
   void movement();

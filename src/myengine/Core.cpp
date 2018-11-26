@@ -17,38 +17,43 @@
 
 namespace myengine
 {
-
+//The setup function
 std::shared_ptr<Core> Core::initialize()
 {
   std::shared_ptr<Core> setup = std::make_shared<Core>();
   setup->running = false;
   setup->self = setup;
 
+  //sets up SDL
   if(SDL_Init(SDL_INIT_VIDEO) < 0)
   {
 	  std::cout << "SDL Failed to Init" << std::endl;
   }
-
-  setup->window = SDL_CreateWindow("My Engine",
+	
+	//Makes the Window
+  setup->window = SDL_CreateWindow("Engine Programming",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
     WINDOW_WIDTH, WINDOW_HEIGHT,
     SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
 
+	//Creates Context
   if (!SDL_GL_CreateContext(setup->window))
   {
 	  std::cout << "Failed create a context with window" << std::endl;
   }
 
+    //Setup Glew
   if(glewInit() != GLEW_OK)
   {
 	  std::cout << "GLEW Failed to Init" << std::endl;
   }
 
+  //More Setup
   setup->device = alcOpenDevice(NULL);
 
   if (!setup->device)
   {
-	  std::cout << "OpenAL Failed to Init" << std::endl;
+	  std::cout << "Failed to Init" << std::endl;
   }
 
   setup->context = alcCreateContext(setup->device, NULL);
@@ -56,14 +61,14 @@ std::shared_ptr<Core> Core::initialize()
   if (!setup->context)
   {
 	  alcCloseDevice(setup->device);
-	  std::cout << "OpenAL Failed to Init" << std::endl;
+	  std::cout << "Failed to Init" << std::endl;
   }
 
   if (!alcMakeContextCurrent(setup->context))
   {
 	  alcDestroyContext(setup->context);
 	  alcCloseDevice(setup->device);
-	  std::cout << "OpenAL Failed to Init" << std::endl;
+	  std::cout << "Failed to Init" << std::endl;
   }
 
   return setup;
@@ -72,7 +77,8 @@ std::shared_ptr<Core> Core::initialize()
 void Core::start()
 {
   running = true;
-
+	
+	//these are needed to render the objects in 3D
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
 
@@ -88,11 +94,13 @@ void Core::start()
       }
     }
 
+	//calls the update functios on all the entities
     for(std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
     {
       (*count)->update();
     }
 
+	//this is my list of systems
 	playAudio();
 	movement();
 	randMove();
@@ -102,6 +110,7 @@ void Core::start()
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+	//calls the display function on all entities
 	for (std::vector<std::shared_ptr<Entity> >::iterator count = entities.begin();
 		count != entities.end(); count++)
 	{
@@ -117,16 +126,23 @@ void Core::stop()
   running = false;
 }
 
+//this is the function that adds an entity to the vector
 std::shared_ptr<Entity> Core::addEntity()
 {
-  std::shared_ptr<Entity> rtn = std::make_shared<Entity>();
-  entities.push_back(rtn);
-  rtn->self = rtn;
-  rtn->core = self;
+  std::shared_ptr<Entity> ent = std::make_shared<Entity>();
+  entities.push_back(ent);
+  ent->self = ent;
+  ent->core = self;
 
-  return rtn;
+  return ent;
 }
 
+//in this system it checks each entity one by one to see if they have the components: Collision, MeshRenderer, Sound & Input i.e. the player
+//only if an entity has all of those does it move on
+//where it checks all of the entities again, this time for ones with: MeshRenderer, Move & Sound i.e. Enemies
+//it then gets and sends the pos's of the player and each enemy it finds into the collision components
+//if true the enemy gets sent down (so it doesnt get picked up on collision again(AABB only does XXZZ no Y))
+// i was trying to get remove entity working but i was running out of time to get everything sorted.
 void Core::coliP()
 {
 	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
@@ -165,6 +181,9 @@ void Core::coliP()
 	}
 }
 
+//simple win check, picks out all the enemies and checks if any of them arent in the floor,
+//when they are all hidden then the game counts as won
+//plays audio, waits for audio to finish, ends
 bool Core::win()
 {
 	bool win = true;
@@ -209,6 +228,12 @@ bool Core::win()
 	return win;
 }
 
+
+//this was the code i was trying to implement for removing entities
+//i am aware that you need to set up some kind of container that holds all of
+//the entites marked for removaly then removes them at the end of the loop
+//However with time running out i was trying a very 'hacky' approach
+
 //void Core::removeEntity(std::shared_ptr<myengine::Entity> e)
 //{
 //	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
@@ -227,6 +252,8 @@ bool Core::win()
 //	}
 //}
 
+//this code simply checks if you have sound & input (player)
+//then plays the sound attached to you when space is detected to be pressed.
 void Core::playAudio()
 {
 	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
@@ -247,6 +274,9 @@ void Core::playAudio()
 	}
 }
 
+//looking at this code now i cant believe how stupid i am
+//this code and RandMove Below should both have been one class attached to a different component i.e. move & input
+// it basically checks if any of the movement keys have been pressed, if yes player moves.
 void Core::movement()
 {
 	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
@@ -281,7 +311,7 @@ void Core::movement()
 		}
 	}
 }
-
+//this one gets a random number every 10 ticks and moves the enemies accordingly 
 void Core::randMove()
 {
 	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
