@@ -24,14 +24,16 @@ public:
   void randMove();
   std::shared_ptr<Entity> addEntity();
 
-  void win();
+  bool win();
 
-  void removeEntity(std::shared_ptr<myengine::Entity> e);
+  //void removeEntity(std::shared_ptr<myengine::Entity> e);
 
 private:
   bool running;
   std::vector<std::shared_ptr<Entity>> entities;
   std::weak_ptr<Core> self;
+
+  bool winS = true;
 
   SDL_Window *window;
   ALCdevice* device;

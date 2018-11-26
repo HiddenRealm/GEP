@@ -8,6 +8,8 @@
 #include "Collision.h"
 #include "MeshRenderer.h"
 
+#include <chrono>
+#include <thread>
 #include <GL/glew.h>
 
 #define WINDOW_WIDTH 800
@@ -95,7 +97,7 @@ void Core::start()
 	movement();
 	randMove();
 	coliP();
-	win();
+	running = !win();
 
     glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -129,7 +131,7 @@ void Core::coliP()
 {
 	for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
 	{
-		if ((*count)->checkComponent<myengine::Collision>() && (*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Sound>())
+		if ((*count)->checkComponent<myengine::Collision>() && (*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Sound>() && (*count)->checkComponent<myengine::Input>())
 		{
 			std::shared_ptr<myengine::Collision> pCol = (*count)->getComponent<myengine::Collision>();
 			std::shared_ptr<myengine::Sound> pAudio = (*count)->getComponent<myengine::Sound>();
@@ -137,18 +139,19 @@ void Core::coliP()
 
 			for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
 			{
-				if ((*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Move>() && (*count)->checkComponent<myengine::Collision>())
+				if ((*count)->checkComponent<myengine::MeshRenderer>() && (*count)->checkComponent<myengine::Move>() && (*count)->checkComponent<myengine::Sound>())
 				{
 					std::shared_ptr<myengine::MeshRenderer> eSkin = (*count)->getComponent<myengine::MeshRenderer>();
+					std::shared_ptr<myengine::Sound> eAudio = (*count)->getComponent<myengine::Sound>();
 
 					bool col;
 					col = pCol->check(pSkin->getX(), pSkin->getZ(), eSkin->getX(), eSkin->getZ());
 					
-					if (col == true)
+					if (col == true && eSkin->getY() > -10)
 					{
-						if (pAudio->isPlaying() == false)
+						if (eAudio->isPlaying() == false)
 						{
-							pAudio->play();
+							eAudio->play();
 						}
 						eSkin->setY(-20);
 
@@ -162,7 +165,7 @@ void Core::coliP()
 	}
 }
 
-void Core::win()
+bool Core::win()
 {
 	bool win = true;
 
@@ -186,7 +189,24 @@ void Core::win()
 	if (win == true)
 	{
 		std::cout << "YOU WIN" << std::endl;
+
+		for (std::vector<std::shared_ptr<Entity>>::iterator count = entities.begin(); count != entities.end(); count++)
+		{
+			if (!(*count)->checkComponent<myengine::Collision>())
+			{
+				std::shared_ptr<myengine::Sound> audio = (*count)->getComponent<myengine::Sound>();
+
+				if (audio->isPlaying() == false && winS == true)
+				{
+					audio->play();
+					winS = false;
+					std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+				}
+			}
+		}
 	}
+
+	return win;
 }
 
 //void Core::removeEntity(std::shared_ptr<myengine::Entity> e)
@@ -221,7 +241,6 @@ void Core::playAudio()
 				if (audio->isPlaying() == false)
 				{
 					audio->play();
-					std::cout << "Space" << std::endl;
 				}
 			}
 		}

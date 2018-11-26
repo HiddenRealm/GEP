@@ -25,8 +25,8 @@ namespace myengine
 
 	bool Collision::check(int aX, int aZ, int bX, int bZ)
 	{
-		glm::vec4 a = { (aX - 0.3), (aX + 0.3), (aZ - 0.3), (aZ + 0.3) };
-		glm::vec4 b = { (bX - 0.3), (bX + 0.3), (bZ - 0.3), (bZ + 0.3) };
+		glm::vec4 a = { (aX - 0.6), (aX + 0.6), (aZ - 0.4), (aZ + 0.4) };
+		glm::vec4 b = { (bX - 0.4), (bX + 0.4), (bZ - 0.4), (bZ + 0.4) };
 
 		return (a.x <= b.y && a.y >= b.x) &&
 			   (a.z <= b.w && a.w >= b.z);
