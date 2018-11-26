@@ -28,7 +28,7 @@ void MeshRenderer::setup(std::string shp, std::string tex)
 
 void MeshRenderer::update()
 {
-	shader = new ShaderProgram("../resources/shaders/simple.vert", "../resources/shaders/simple.frag");
+	shader = new ShaderProgram("resources/shaders/simple.vert", "resources/shaders/simple.frag");
 	shader->setUniform("in_Projection", glm::perspective(glm::radians(45.0f), (float)800 / (float)600, 0.1f, 100.f));
 
 	model = glm::mat4(1.0f);
